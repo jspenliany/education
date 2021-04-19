@@ -23,7 +23,7 @@
   
   <context-param>
     <param-name>contextConfigLocation</param-name>
-    <param-value>classpath:applicationcontext.xml</param-value>
+    <param-value>classpath:application-context.xml</param-value>
   </context-param>
 
   <listener>
@@ -37,12 +37,31 @@
       <param-name>encoding</param-name>
       <param-value>utf-8</param-value>
     </init-param>
+    <init-param>
+      <param-name>ForceRequestEncoding</param-name>
+      <param-value>false</param-value>
+    </init-param>
+    <init-param>
+      <param-name>ForceResponseEncoding</param-name>
+      <param-value>true</param-value>
+    </init-param>
   </filter>
   <filter-mapping>
     <filter-name>EncodeFilter</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
+<!--  well, the following block intends to active RESTful style-->
+<!--  if active, then put/delete etc are supported-->
+  <filter>
+    <filter-name>HiddenHttpMethodFilter</filter-name>
+    <filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>HiddenHttpMethodFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
 
+<!--  This filter will check whether each request has the right log in infos-->
   <filter>
     <filter-name>loginFilter</filter-name>
     <filter-class>edu.filter.WorkFilter</filter-class>

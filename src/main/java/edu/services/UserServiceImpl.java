@@ -14,7 +14,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public Userinfo login(String uname, String pwd)
     {
-
+        Userinfo tmp = new Userinfo();
+        tmp.setUsername(uname);
+        tmp.setUserpwd(pwd);
+        userDao.FindUsersInfos(tmp);
         return null;
     }
 }

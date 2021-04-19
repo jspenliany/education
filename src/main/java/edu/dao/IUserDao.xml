@@ -42,6 +42,9 @@
             <when test="userid!=null">
                 AND userid=#{userid}
             </when>
+            <when test="userpwd!=null">
+                AND userpwd=#{userpwd}
+            </when>
             <otherwise>
                 AND username like concat('%',#{username},'%')
             </otherwise>

@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.dao.IUserDao">
+    <insert id="InsertNewUser" parameterType="edu.dao.Userinfo" useGeneratedKeys="true" keyProperty="id">
+        insert into user_info(userid,username, userpwd, email, sex, role, active, lastLogin)
+                       values(#{userid},#{username},#{userpwd},#{email},#{sex},#{role},#{active},#{lastLogin})
+    </insert>
+    <select id="ShowUsersInfos" parameterType="int" resultType="edu.dao.Userinfo">
+        select * from user_info left join teacher_info on userid=tid where 1=1
+        <choose>
+            <when test="roleCode==1">
+                AND userid like '1001%'
+            </when>
+            <when test="roleCode==2">
+                AND userid &lt; 1003000000
+            </when>
+            <when test="roleCode==3">
+                AND userid &lt; 1004000000
+            </when>
+            <when test="roleCode==4">
+                AND userid &lt; 1005000000
+            </when>
+            <when test="roleCode==5">
+                AND userid &lt; 1006000000
+            </when>
+            <otherwise>
+                AND userid &lt; 1001000000
+            </otherwise>
+        </choose>
+    </select>
+    <delete id="DeleteOldUser" parameterType="edu.dao.Userinfo" >
+        delete from user_info where userid=#{userid}
+    </delete>
+    <select id="FindUsersInfos" parameterType="edu.dao.Userinfo" resultType="edu.dao.Userinfo">
+        select * from user_info where 1=1
+        <choose>
+            <when test="username!=null">
+                AND username=#{username}
+            </when>
+            <when test="userid!=null">
+                AND userid=#{userid}
+            </when>
+            <otherwise>
+                AND username like concat('%',#{username},'%')
+            </otherwise>
+        </choose>
+    </select>
+    <update id="UpdateUserInfos" parameterType="edu.dao.Userinfo">
+        update user_info set active=#{active}
+        <if test="lastLogin!=null">
+            , lastLogin=#{lastLogin}
+        </if>
+        where userid=#{userid}
+    </update>
+    
+    <select id="GetNextID" parameterType="int" resultType="Integer">
+        select max(userid) from user_info where 1=1
+        <choose>
+            <when test="idType==1">
+                AND userid like '1001%'
+            </when>
+            <when test="idType==2">
+                AND userid like '1002%'
+            </when>
+            <when test="idType==3">
+                AND userid like '1003%'
+            </when>
+            <when test="idType==4">
+                AND userid like '1004%'
+            </when>
+            <when test="idType==5">
+                AND userid like '1005%'
+            </when>
+            <otherwise>
+                AND userid like '1000%'
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="MatchColumnValue" resultType="Integer">
+        select count(username) from user_info where 1=1
+        <if test="search!=null">
+            AND username=#{search}
+        </if>
+    </select>
+</mapper>

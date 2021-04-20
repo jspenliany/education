@@ -9,18 +9,18 @@ import java.util.List;
  */
 
 public interface IUserDao {
-    public List<Userinfo> ShowUsersInfos(@Param("roleCode") int roleCode);
+    List<Userinfo> ShowUsersInfos(@Param("roleCode") int roleCode);
 
-    public int InsertNewUser(Userinfo userinfo);
+    int InsertNewUser(Userinfo userinfo);
 
-    public int DeleteOldUser(Userinfo userinfo);
+    int DeleteOldUser(Userinfo userinfo);
 
-    public int UpdateUserInfos(Userinfo userinfo);
+    int UpdateUserInfos(Userinfo userinfo);
 
-    public List<Userinfo> FindUsersInfos(Userinfo userinfo);
+    List<Userinfo> SelectUsersInfos(Userinfo userinfo);
 
-    public Integer GetNextID(@Param("idType") int idType);
+    Integer GetNextID(@Param("idType") int idType);
 
-    public Integer MatchColumnValue(@Param("search") String search, @Param("matchCode") int mcode);
+    Integer MatchColumnValue(@Param("search") String search, @Param("matchCode") int mcode);
 
 }

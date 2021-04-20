@@ -13,7 +13,7 @@
                            http://www.springframework.org/schema/context
                            http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
-    <context:property-placeholder location="classpath:database.properties"></context:property-placeholder>
+    <context:property-placeholder location="classpath:database.properties" />
 
     <context:component-scan base-package="edu">
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
@@ -27,8 +27,8 @@
     </bean>
 
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="dataSource" ref="dataSource"></property>
-        <property name="configLocation" value="classpath:mybatis-config.xml"></property>
+        <property name="dataSource" ref="dataSource" />
+        <property name="configLocation" value="classpath:mybatis-config.xml" />
         <property name="mapperLocations">
             <list>
                 <value>classpath:edu/dao/*.xml</value>
@@ -59,7 +59,7 @@
     </bean>
 
     <bean id="dbTransaction" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="dataSource"></property>
+        <property name="dataSource" ref="dataSource" />
     </bean>
 
     <tx:advice id="txAOP" transaction-manager="dbTransaction">
@@ -67,11 +67,11 @@
             <tx:method name="post*" propagation="REQUIRED"/>
             <tx:method name="put*" propagation="REQUIRED"/>
             <tx:method name="delete*" propagation="REQUIRED"/>
-            <tx:method name="get*" propagation="SUPPORTS" read-only="true"/>
+            <tx:method name="login*" propagation="SUPPORTS" read-only="true"/>
         </tx:attributes>
     </tx:advice>
 
     <aop:config>
-        <aop:advisor advice-ref="txAOP" pointcut="execution(* edu.services..*(..))"/>
+        <aop:advisor advice-ref="txAOP" pointcut="execution(* edu.services..*.*(..))"/>
     </aop:config>
 </beans>

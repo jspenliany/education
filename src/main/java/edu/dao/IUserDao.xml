@@ -31,24 +31,28 @@
         </choose>
     </select>
     <delete id="DeleteOldUser" parameterType="edu.dao.Userinfo" >
-        delete from user_info where userid=#{userid}
+        delete from user_info where 1=1
+        <if test="username!=null">
+            AND username=#{username}
+        </if>
+        <if test="userid!=null">
+            AND userid=#{userid}
+        </if>
+        <if test="userpwd!=null">
+            AND userpwd=#{userpwd}
+        </if>
     </delete>
-    <select id="FindUsersInfos" parameterType="edu.dao.Userinfo" resultType="edu.dao.Userinfo">
+    <select id="SelectUsersInfos" parameterType="edu.dao.Userinfo" resultType="edu.dao.Userinfo">
         select * from user_info where 1=1
-        <choose>
-            <when test="username!=null">
-                AND username=#{username}
-            </when>
-            <when test="userid!=null">
-                AND userid=#{userid}
-            </when>
-            <when test="userpwd!=null">
-                AND userpwd=#{userpwd}
-            </when>
-            <otherwise>
-                AND username like concat('%',#{username},'%')
-            </otherwise>
-        </choose>
+        <if test="username!=null">
+            AND username=#{username}
+        </if>
+        <if test="userid!=null">
+            AND userid=#{userid}
+        </if>
+        <if test="userpwd!=null">
+            AND userpwd=#{userpwd}
+        </if>
     </select>
     <update id="UpdateUserInfos" parameterType="edu.dao.Userinfo">
         update user_info set active=#{active}

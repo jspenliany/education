@@ -4,6 +4,7 @@ import edu.dao.IUserDao;
 import edu.dao.Userinfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -14,17 +15,31 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     @Autowired
     private IUserDao userDao;
+
     @Override
     public Userinfo login(String uname, String pwd)
     {
         Userinfo tmp = new Userinfo();
         tmp.setUsername(uname);
         tmp.setUserpwd(pwd);
-        List<Userinfo> ulist=userDao.FindUsersInfos(tmp);
+        List<Userinfo> ulist=userDao.SelectUsersInfos(tmp);
         if (ulist == null)
             tmp=null;
+        else if (ulist.size() < 1)
+            tmp=null;
+        else if (ulist.size() < 2)
+            tmp=ulist.get(0);
         else
-            tmp = ulist.get(0);
+            tmp=null;
         return tmp;
+    }
+
+    @Override
+    public boolean deleteUser(String uname)
+    {
+        Userinfo tmp = new Userinfo();
+        tmp.setUsername(uname);
+        int affectRows=userDao.DeleteOldUser(tmp);
+        return (affectRows == 1);
     }
 }

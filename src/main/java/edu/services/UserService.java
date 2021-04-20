@@ -8,4 +8,6 @@ import edu.dao.Userinfo;
 
 public interface UserService {
     Userinfo login(String uname, String pwd);
+
+    boolean deleteUser(String uname);
 }

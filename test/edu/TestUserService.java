@@ -1,7 +1,5 @@
 package edu;
 
-import edu.ctrl.UserController;
-import edu.dao.IUserDao;
 import edu.dao.Userinfo;
 import edu.services.UserService;
 import org.junit.Test;

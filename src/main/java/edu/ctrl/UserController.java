@@ -17,7 +17,7 @@ public class UserController {
     private UserService userService;
 
 
-    @RequestMapping(value = "/logrespond", method = RequestMethod.POST)
+    @RequestMapping(value = "/loginrespond", method = RequestMethod.POST)
     public ModelAndView login(String username, String password, boolean hidden)
     {
 
@@ -32,6 +32,7 @@ public class UserController {
 
         userService.login(username,password);
         ModelAndView model = new ModelAndView();
+        model.setViewName("forward:/home");
         return model;
     }
 

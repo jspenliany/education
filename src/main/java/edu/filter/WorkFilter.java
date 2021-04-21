@@ -27,6 +27,7 @@ public class WorkFilter implements Filter {
         try
         {
             HttpServletRequest hreq=(HttpServletRequest)request;
+            System.out.println(hreq.getRequestURL());
             HttpServletResponse hres=(HttpServletResponse)response;
         }catch (ClassCastException e)
         {

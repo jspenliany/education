@@ -20,8 +20,10 @@ public class TestUserControl {
 
     private MockMvc mockMvc;
 
+    //this is an instance of certain class that will be injected into the testing class, but nothing left.
     @Mock
     private UserService userService;
+    //this is an instance of the being tested class
     @InjectMocks
     private UserController user;
 
@@ -35,7 +37,7 @@ public class TestUserControl {
     @Test
     public void testLogin() throws Exception
     {
-        mockMvc.perform(post("/user/logrespond").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("username","sel.f")
+        mockMvc.perform(post("/user/loginrespond").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("username","sel.f")
         .param("password","self").param("hidden","true")
         ).andExpect(status().isOk()).andDo(print());
     }

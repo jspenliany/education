@@ -32,7 +32,7 @@ public class UserController {
 
         userService.login(username,password);
         ModelAndView model = new ModelAndView();
-        model.setViewName("forward:/home");
+        model.setViewName("/user/user");
         return model;
     }
 

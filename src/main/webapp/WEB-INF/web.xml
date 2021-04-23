@@ -37,14 +37,14 @@
       <param-name>encoding</param-name>
       <param-value>utf-8</param-value>
     </init-param>
-    <init-param>
+<!--    <init-param>
       <param-name>ForceRequestEncoding</param-name>
       <param-value>false</param-value>
     </init-param>
     <init-param>
       <param-name>ForceResponseEncoding</param-name>
       <param-value>true</param-value>
-    </init-param>
+    </init-param>-->
   </filter>
   <filter-mapping>
     <filter-name>EncodeFilter</filter-name>

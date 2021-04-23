@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
  */
 @Controller
 public class HomeController {
-    @RequestMapping("/home")
+    @RequestMapping("/homee")
     public String welcome(HttpServletRequest request)
     {
         HttpSession session = request.getSession();

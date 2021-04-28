@@ -11,7 +11,7 @@
 
 <body>
 <div id="app">
-    <div class="layout" style="width: 960px; margin: 0 auto;">
+    <div class="layout" style="width: 1200px; margin: 0 auto;">
         <Layout>
             <header>
                 <row>
@@ -19,22 +19,17 @@
                         <h1>初级中学管理系统</h1>
                     </Divider>
                 </row>
-
-                <row justify="start" type="flex">
-                    <i-col style="margin-right: 10px" v-for="(item, index) in menu">
-                        <span v-if="item.reply === 'frontSearch'">
-                            <input name="search" placeholder="item.label" v-model="searchKey">
-                        </span>
-                        <i-button :icon="item.icon" :type="item.type" @click="OperateMenu(index, item.reply)" v-show="item.show">{{item.label}}</i-button>
+                <row justify="end" type="flex">
+                    <i-col style="margin-right: 5px">
+                        <i-button @click="create" icon="md-add" type="primary">添加</i-button>
+                    </i-col>
+                    <i-col style="margin-right: 5px">
+                        <i-button @click="setUp = true" icon="md-settings" type="success">设置</i-button>
                     </i-col>
                 </row>
             </header>
 
-
-
-
-
-            <div>
+            <Content>
                 <i-table :border="showBorder" :columns="tableColumns1" :data="data2" :height="fixedHeader ? 250 : ''" :showHeader="showHeader" :size="tableSize" :stripe="showStripe">
                     <template slot="name" slot-scope="{ row }">
                         <strong>{{ row.name }}</strong>
@@ -50,7 +45,7 @@
                         <Page :current="currentPage" :pageSize="pageSize" :total="data1.length" @on-change="changePage" @on-page-size-change="changePageSize" show-elevator show-sizer show-total></Page>
                     </div>
                 </div>
-            </div>
+            </Content>
         </Layout>
 
         <Drawer :closable="true" :mask="false" title="Set up" v-model="setUp">
@@ -73,7 +68,7 @@
             </div>
         </Drawer>
 
-        <Modal :title="titleModel" @on-cancel="cancelEditor" @on-ok="okEditor" v-model="empModal">
+        <Modal @on-cancel="cancelEditor" @on-ok="okEditor" title="Emp Info" v-model="empModal">
             <i-form :label-width="80">
                 <form-item label="Uid:">
                     <i-input placeholder="学号..." style="width: 300px" v-model="empInfo.uid" />
@@ -101,7 +96,7 @@
         el: '#app',
         data() {
             return {
-                logOrReg:false,
+                createOrEditor:false,
                 empModal:false,
                 empInfo:{
                     uid:'',
@@ -186,45 +181,6 @@
                         deptName: '初二级部'
                     }],
 
-
-                titleModel: '仅供测试',
-                searchKey: '搜索',
-                extModLaEa:true,
-                extModLaEb:true,
-                regFrameData: [{
-                    Lname:'用户名',
-                    Itype:'input',
-                    Iflag:0
-                },{
-                    Lname:'密码',
-                    Itype:'password',
-                    Iflag:0
-                },{
-                    Lname:'重复密码',
-                    Itype:'password',
-                    Iflag:0
-                },{
-                    Lname:'姓名',
-                    Itype:'input',
-                    Iflag:0
-                },{
-                    Lname:'性别',
-                    Itype:'radio',
-                    Iflag:0
-                },{
-                    Lname:'身份证号',
-                    Itype:'input',
-                    Iflag:0
-                },{
-                    Lname:'手机号',
-                    Itype:'input',
-                    Iflag:0
-                },{
-                    Lname:'所在班级',
-                    Itype:'select',
-                    Iflag:0
-                }],
-
                 data2:[],
                 showBorder:false,
                 showStripe:false,
@@ -232,130 +188,26 @@
                 showIndex:true,
                 showCheckbox:false,
                 fixedHeader:false,
-                tableSize: 'default',
-
-                menu: [{
-                    label: '首页',
-                    icon:'md-home',
-                    type:'primary',
-                    show:true,
-                    reply:'frontHome',
-                    link: '#'
-                },{
-                    label: '校园风采',
-                    icon:'md-school',
-                    type:'info',
-                    show:true,
-                    reply:'frontEcology',
-                    link: '#'
-                },{
-                    label: '相关数据',
-                    icon:'ios-paper',
-                    type:'info',
-                    show:true,
-                    reply:'frontData',
-                    link: '#'
-                },{
-                    label: '设备维护',
-                    icon:'ios-construct',
-                    type:'info',
-                    show:true,
-                    reply:'frontRepair',
-                    link: '#'
-                },{
-                    label: '注册',
-                    icon:'md-add-circle',
-                    type:'info',
-                    show:true,
-                    reply:'frontRegister',
-                    link: '#'
-                },{
-                    label: '登录',
-                    icon:'md-log-in',
-                    type:'info',
-                    show:true,
-                    reply:'frontLog',
-                    link: '#'
-                },{
-                    label: '搜索',
-                    icon:'md-search',
-                    type:'primary',
-                    show:true,
-                    reply:'frontSearch',
-                    link: '#'
-                },
-                ]
+                tableSize: 'default'
             }
         },
         methods: {
-            OperateMenu(index, reply) {
-                console.log('menu ' + index + ', trigger ' + reply);
-                if (reply == 'frontHome'){
-                    this.frontHome();
-                }else if (reply == 'frontEcology') {
-                    this.frontEcology();
-                }else if (reply == 'frontData') {
-                    this.frontData();
-                }else if (reply == 'frontRepair') {
-                    this.frontRepair();
-                }else if (reply == 'frontRegister') {
-                    this.frontRegister();
-                }else if (reply == 'frontLog') {
-                    this.frontLog();
-                }else if (reply == 'frontSearch') {
-                    this.frontSearch();
-                }else {
-                    console.log(" error ......")
-                }
-            },
             changePage(index) {
-                console.log(' the index=' + index);
+                console.log(' the index=' + index)
                 this.currentPage = index;
                 this.data2 = [].concat(this.data1.slice((index - 1) * this.pageSize, index * this.pageSize));
             },
             show(index) {
                 this.empInfo = Object.assign(this.empInfo, this.data2[index]);
                 this.empModal = true;
-                this.logOrReg=true;
+                this.createOrEditor=true;
                 this.empInfo = Object.assign(this.empInfo, {index: index});
             },
-            frontHome() {
-                console.log(" well the home page coming ");
-            },
-            frontEcology() {
-                console.log(" well life-style in campus");
-            },
-            frontData() {
-                console.log(" well all history data can be visited here");
-            },
-            frontRepair() {
-                console.log(" well for the state of equipments");
-            },
-            frontSearch() {
-                console.log(" well the search key is " + this.searchKey);
-            },
-            frontLog() {
+            create() {
                 this.empInfo=[];
                 this.empModal=true;
-                this.logOrReg=false;
-                this.titleModel='请输入帐户信息';
-                console.log("well, I am logging in")
+                this.createOrEditor=false;
             },
-            frontRegister() {
-                this.empInfo=[];
-                this.empModal=true;
-                this.logOrReg=false;
-                this.titleModel='请填写注册信息';
-                console.log("well, I am register")
-            },
-
-            frontExOne() {
-                console.log(" well all history data can be visited here");
-            },
-            frontExTwo() {
-                console.log(" well for the state of equipments");
-            },
-
             remove(index) {
                 this.data1.splice((this.currentPage - 1) * 10 + index, 1)
             },
@@ -368,7 +220,7 @@
                 this.changePage(this.currentPage);
             },
             okEditor() {
-                if (this.logOrReg) {
+                if (this.createOrEditor) {
                     this.data1.splice((this.currentPage - 1) * 10 + this.empInfo.index, 1, this.empInfo)
                 } else {
                     this.data1.push(Object.assign({}, this.empInfo))
@@ -417,7 +269,7 @@
               }
             },
             data1() {
-                if (!this.logOrReg) {
+                if (!this.createOrEditor) {
                     this.changePage(Math.ceil(this.data1.length / this.pageSize))
                 } else {
                     this.changePage(this.currentPage)

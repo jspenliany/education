@@ -19,10 +19,33 @@
                         <h1>初级中学管理系统</h1>
                     </Divider>
                 </row>
-
+                <row justify="start" type="flex">
+                    <i-col style="margin-right: 10px">
+                        <i-button @click="frontHome" icon="md-home" type="primary">首页</i-button>
+                    </i-col>
+                    <i-col style="margin-right: 10px">
+                        <i-button @click="frontEcology" icon="md-school" type="success">校园风采</i-button>
+                    </i-col>
+                    <i-col style="margin-right: 10px">
+                        <i-button @click="frontExOne" icon="md-school" type="info" v-show="extModLaEa">尚未开放</i-button>
+                    </i-col>
+                    <i-col style="margin-right: 10px">
+                        <i-button @click="frontExTwo" icon="md-school" type="info" v-show="extModLaEb">尚未开放</i-button>
+                    </i-col>
+                    <i-col style="margin-right: 10px">
+                        <i-button @click="frontRegister" icon="md-add-circle" type="info">注册</i-button>
+                    </i-col>
+                    <i-col style="margin-right: 10px">
+                        <i-button @click="frontLog" icon="md-log-in" type="info">登录</i-button>
+                    </i-col>
+                    <input name="search" placeholder="搜索" v-model="searchKey">
+                    <i-col style="margin-right: 5px">
+                        <i-button @click="frontSearch" icon="ios-search" type="primary">搜索</i-button>
+                    </i-col>
+                </row>
                 <row justify="start" type="flex">
                     <i-col style="margin-right: 10px" v-for="(item, index) in menu">
-                        <span v-if="item.reply === 'frontSearch'">
+                        <span v-if="item.label === '搜索'">
                             <input name="search" placeholder="item.label" v-model="searchKey">
                         </span>
                         <i-button :icon="item.icon" :type="item.type" @click="OperateMenu(index, item.reply)" v-show="item.show">{{item.label}}</i-button>

@@ -73,21 +73,17 @@
             </div>
         </Drawer>
 
-        <Modal :title="titleModel" @on-cancel="cancelEditor" @on-ok="okEditor" v-model="empModal">
+        <Modal @on-cancel="cancelEditor" @on-ok="okEditor" title="请输入登录信息" v-model="logModal">
             <i-form :label-width="80">
-                <form-item label="Uid:">
-                    <i-input placeholder="学号..." style="width: 300px" v-model="empInfo.uid" />
+                <form-item :label="item.Lname" v-for="item in logFrameData">
+                    <i-input :placeholder="item.Lname" style="width: 260px" v-model="item.Itype"/>
                 </form-item>
-                <form-item label="Name:">
-                    <i-input placeholder="姓名..." style="width: 300px" v-model="empInfo.name" />
-                </form-item>
-                <form-item label="Email:">
-                    <i-input placeholder="邮箱..." style="width: 300px" v-model="empInfo.email" />
-                </form-item>
-                <form-item label="DeptName:">
-                    <i-select v-model="empInfo.deptName">
-                        <i-option :key="index" :value="item.deptName" v-for="(item, index) in dept">{{item.deptName}}</i-option>
-                    </i-select>
+            </i-form>
+        </Modal>
+        <Modal @on-cancel="cancelEditor" @on-ok="okEditor" title="请填写注册信息" v-model="regModal">
+            <i-form :label-width="80">
+                <form-item :label="item.name" v-for="item in regFrameData">
+                    <i-input :placeholder="item.name" :type="item.type" style="width: 260px" v-model="empInfo.name"/>
                 </form-item>
             </i-form>
         </Modal>
@@ -102,7 +98,8 @@
         data() {
             return {
                 logOrReg:false,
-                empModal:false,
+                logModal:false,
+                regModal:false,
                 empInfo:{
                     uid:'',
                     name:'',
@@ -192,6 +189,40 @@
                 extModLaEa:true,
                 extModLaEb:true,
                 regFrameData: [{
+                    name:'用户名',
+                    type:'input',
+                    flag:0
+                },{
+                    name:'密码',
+                    type:'password',
+                    flag:0
+                },{
+                    name:'重复密码',
+                    type:'password',
+                    flag:0
+                },{
+                    name:'姓名',
+                    type:'input',
+                    flag:0
+                },{
+                    name:'性别',
+                    type:'radio',
+                    flag:0
+                },{
+                    name:'身份证号',
+                    type:'input',
+                    flag:0
+                },{
+                    name:'手机号',
+                    type:'input',
+                    flag:0
+                },{
+                    name:'所在班级',
+                    type:'select',
+                    flag:0
+                }],
+
+                logFrameData: [{
                     Lname:'用户名',
                     Itype:'input',
                     Iflag:0
@@ -200,28 +231,8 @@
                     Itype:'password',
                     Iflag:0
                 },{
-                    Lname:'重复密码',
-                    Itype:'password',
-                    Iflag:0
-                },{
-                    Lname:'姓名',
+                    Lname:'验证码',
                     Itype:'input',
-                    Iflag:0
-                },{
-                    Lname:'性别',
-                    Itype:'radio',
-                    Iflag:0
-                },{
-                    Lname:'身份证号',
-                    Itype:'input',
-                    Iflag:0
-                },{
-                    Lname:'手机号',
-                    Itype:'input',
-                    Iflag:0
-                },{
-                    Lname:'所在班级',
-                    Itype:'select',
                     Iflag:0
                 }],
 
@@ -315,7 +326,6 @@
             },
             show(index) {
                 this.empInfo = Object.assign(this.empInfo, this.data2[index]);
-                this.empModal = true;
                 this.logOrReg=true;
                 this.empInfo = Object.assign(this.empInfo, {index: index});
             },
@@ -336,16 +346,16 @@
             },
             frontLog() {
                 this.empInfo=[];
-                this.empModal=true;
-                this.logOrReg=false;
-                this.titleModel='请输入帐户信息';
+                this.logModal=true;
+                this.regModal=false;
+                this.logOrReg=true;
                 console.log("well, I am logging in")
             },
             frontRegister() {
                 this.empInfo=[];
-                this.empModal=true;
+                this.logModal=false;
+                this.regModal=true;
                 this.logOrReg=false;
-                this.titleModel='请填写注册信息';
                 console.log("well, I am register")
             },
 

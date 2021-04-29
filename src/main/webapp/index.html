@@ -75,17 +75,52 @@
 
         <Modal @on-cancel="cancelEditor" @on-ok="okEditor" title="请输入登录信息" v-model="logModal">
             <i-form :label-width="80">
-                <form-item :label="item.Lname" v-for="item in logFrameData">
-                    <i-input :placeholder="item.Lname" style="width: 260px" v-model="item.Itype"/>
+                <form-item :label="item.name" v-for="item in logFrameData">
+                    <div v-if="item.quaker == 'text'">
+                        <i-input :placeholder="item.name" maxlength="30" style="width: 260px;" type="text" v-model="item.backData"/>
+                    </div>
+                    <div v-else-if="item.quaker == 'password'">
+                        <i-input :placeholder="item.name" maxlength="60" style="width: 260px;" type="password" v-model="item.backData"/>
+                    </div>
                 </form-item>
             </i-form>
         </Modal>
         <Modal @on-cancel="cancelEditor" @on-ok="okEditor" title="请填写注册信息" v-model="regModal">
             <i-form :label-width="80">
                 <form-item :label="item.name" v-for="item in regFrameData">
-                    <i-input :placeholder="item.name" :type="item.type" style="width: 260px" v-model="empInfo.name"/>
+                    <div v-if="item.quaker == 'text'">
+                        <i-input :placeholder="item.name" maxlength="30" style="width: 260px;" type="text" v-model="item.backData"/>
+                    </div>
+                    <div v-else-if="item.quaker == 'password'">
+                        <i-input :placeholder="item.name" maxlength="60" style="width: 260px;" type="password" v-model="item.backData"/>
+                    </div>
+                    <div v-else-if="item.quaker == 'radio'">
+                        <input :id="kindergarden.name" name="gender" style="width: 80px;" type="radio" v-for="kindergarden in item.frontData" v-model="item.backData">
+                            {{kindergarden.name}}
+                        </input>
+                    </div>
+                    <div v-else-if="item.quaker == 'checkbox'">
+                        <CheckGroup v-model="item.backData">
+                            <i-checkbox :label="chk.name" style="width: 160px" v-for="chk in item.frontData" v-model="item.backData">
+                                {{chk.name}}
+                            </i-checkbox>
+                        </CheckGroup>
+                    </div>
+                    <div v-else-if="item.quaker == 'select'">
+                        <i-select style="width: 260px;" v-model="item.backData">
+                            <i-option :value="sel.name" v-for="sel in item.frontData">{{sel.name}}</i-option>
+                        </i-select>
+                    </div>
+                    <div v-else-if="item.quaker == 'textarea'">
+                        <i-input :placeholder="item.name" style="width: 260px;" type="text" v-model="item.backData"/>
+                    </div>
+                    <div v-else>
+                        <i-input :placeholder="item.name" style="width: 260px;" type="textarea" v-model="item.backData"/>
+                    </div>
+
                 </form-item>
             </i-form>
+
         </Modal>
     </div>
 
@@ -190,50 +225,80 @@
                 extModLaEb:true,
                 regFrameData: [{
                     name:'用户名',
-                    type:'input',
+                    quaker:'text',
+                    frontData:[],
+                    backData:'',
                     flag:0
                 },{
                     name:'密码',
-                    type:'password',
+                    quaker:'password',
+                    frontData:[],
+                    backData:'',
                     flag:0
                 },{
                     name:'重复密码',
-                    type:'password',
+                    quaker:'password',
+                    frontData:[],
+                    backData:'',
                     flag:0
                 },{
                     name:'姓名',
-                    type:'input',
+                    quaker:'text',
+                    frontData:[],
+                    backData:'',
                     flag:0
                 },{
                     name:'性别',
-                    type:'radio',
+                    quaker:'radio',
+                    frontData:[
+                        {name:'男',value:0},
+                        {name:'女',value:1}],
+                    backData:0,
                     flag:0
                 },{
                     name:'身份证号',
-                    type:'input',
+                    quaker:'text',
+                    frontData:[],
+                    backData:'',
                     flag:0
                 },{
                     name:'手机号',
-                    type:'input',
+                    quaker:'text',
+                    frontData:[],
+                    backData:111,
                     flag:0
                 },{
                     name:'所在班级',
-                    type:'select',
+                    quaker:'select',
+                    frontData:[{
+                        index:1,
+                        name:'初一级部'
+                    },{
+                        index:2,
+                        name:'初二级部'
+                    },{
+                        index:3,
+                        name:'初三级部'
+                    }],
+                    backData:1,
                     flag:0
                 }],
 
                 logFrameData: [{
-                    Lname:'用户名',
-                    Itype:'input',
-                    Iflag:0
+                    name:'用户名',
+                    quaker:'text',
+                    backData:'',
+                    flag:0
                 },{
-                    Lname:'密码',
-                    Itype:'password',
-                    Iflag:0
+                    name:'密码',
+                    quaker:'password',
+                    backData:'',
+                    flag:0
                 },{
-                    Lname:'验证码',
-                    Itype:'input',
-                    Iflag:0
+                    name:'验证码',
+                    quaker:'text',
+                    backData:'',
+                    flag:0
                 }],
 
                 data2:[],

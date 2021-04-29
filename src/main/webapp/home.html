@@ -84,6 +84,17 @@
                         <i-option :key="index" :value="item.deptName" v-for="(item, index) in dept">{{item.deptName}}</i-option>
                     </i-select>
                 </form-item>
+                <form-item>
+                    <input id="a" label="nan" name="gender" type="radio" v-model="gender" value="男">
+                        男
+                    </input>
+                    <input id="b" label="nv" name="gender" type="radio" v-model="gender" value="女">
+                        女
+                    </radio>
+                </form-item>
+                <form-item>
+                    <h2>{{gender}}</h2>
+                </form-item>
             </i-form>
         </Modal>
     </div>
@@ -104,6 +115,7 @@
                     email:'',
                     deptName:''
                 },
+                gender:'',
                 setUp:false,
                 currentPage:1,
                 pageSize:10,

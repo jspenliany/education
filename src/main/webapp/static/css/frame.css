@@ -1,0 +1,99 @@
+/*
+For render the page, make sure that 'webapp' is added into the config option of run config as directory content.
+And the 'war_exploded' mode is used.
+*/
+
+
+body{
+    background-color: darkgreen;
+}
+
+#app{
+    background-color: brown;
+    margin: 10px;
+}
+
+#menuFrame{
+    background-color:whitesmoke;
+    height: 40px;
+    line-height: 36px;
+    margin: 0 auto;
+    text-align: center;
+    width: 720px;
+    clear: right;
+}
+
+#topFrame{
+    width: 960px;
+    margin: 0 auto;
+    background-color: aquamarine;
+}
+
+.menuUl{
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    width: 850px;
+}
+.menuLi{
+    list-style-type: none;
+    float: left;
+    width: 80px;
+    line-height: 20px;
+    text-align: center;
+}
+
+.menuLinkA{
+    width: 76px;
+    margin: 0 auto;
+}
+
+.menuSpan{
+    display: block;
+    width: 70px;
+    margin: 6px;
+    /*background-color: chocolate;*/
+    border-radius: 7px;
+    border: 3px lightskyblue solid;
+    padding: 0;
+    font-size: 14px;
+    font-weight: bold;
+    color: darkblue;
+}
+
+#menuLabelSearch{
+    display: block;
+    width: 150px;
+    margin: 6px;
+    /*background-color: chocolate;*/
+    border-radius: 7px;
+    border: 3px lightskyblue solid;
+    padding: 0;
+    font-size: 14px;
+    font-weight: bold;
+    color: darkblue;
+}
+
+a:link{
+    text-decoration: none;
+}
+a:visited{
+    text-decoration: none;
+}
+a:hover{
+    text-decoration: underline;
+    color: blueviolet;
+}
+
+#menu_search{
+    border: none;
+    width: 100px;
+}
+
+#testSPAN{
+    width: 600px;
+    height: 30px;
+    margin: 0 auto;
+    text-align: center;
+
+}

@@ -19,10 +19,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public Userinfo login(String uname, String pwd)
     {
+        System.out.println(" enter into UserServiceImpl...login...");
         Userinfo tmp = new Userinfo();
         tmp.setUsername(uname);
         tmp.setUserpwd(pwd);
         List<Userinfo> ulist=userDao.SelectUsersInfos(tmp);
+
+        for (Userinfo uin:ulist) {
+            System.out.println("---------"+uin.getUsername() +" "+uin.getUserpwd());
+        }
+
         if (ulist == null)
             tmp=null;
         else if (ulist.size() < 1)

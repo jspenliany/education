@@ -5,12 +5,24 @@ And the 'war_exploded' mode is used.
 
 
 body{
-    background-color: darkgreen;
+    background-color: white;
 }
 
+input{
+    padding: 0;
+    border-width: 0;
+    font-size: 20px;
+}
+
+fieldset{
+    border-color: coral;
+    padding: 5px;
+    width: 375px;
+    font-size: 22px;
+}
 #app{
-    background-color: brown;
-    margin: 10px;
+    background-color: whitesmoke;
+    margin: 0 auto;
 }
 
 #menuFrame{
@@ -19,14 +31,14 @@ body{
     line-height: 36px;
     margin: 0 auto;
     text-align: center;
-    width: 720px;
+    width: 850px;
     clear: right;
 }
 
 #topFrame{
-    width: 960px;
+    width: 860px;
     margin: 0 auto;
-    background-color: aquamarine;
+    background-color: azure;
 }
 
 .menuUl{
@@ -38,25 +50,25 @@ body{
 .menuLi{
     list-style-type: none;
     float: left;
-    width: 80px;
-    line-height: 20px;
+    width: 100px;
+    line-height: 24px;
     text-align: center;
 }
 
 .menuLinkA{
-    width: 76px;
+    width: 85px;
     margin: 0 auto;
 }
 
 .menuSpan{
     display: block;
-    width: 70px;
+    width: 85px;
     margin: 6px;
     /*background-color: chocolate;*/
     border-radius: 7px;
-    border: 3px lightskyblue solid;
+    border: 1px lightskyblue solid;
     padding: 0;
-    font-size: 14px;
+    font-size: 18px;
     font-weight: bold;
     color: darkblue;
 }
@@ -67,9 +79,9 @@ body{
     margin: 6px;
     /*background-color: chocolate;*/
     border-radius: 7px;
-    border: 3px lightskyblue solid;
+    border: 1px lightskyblue solid;
     padding: 0;
-    font-size: 14px;
+    font-size: 18px;
     font-weight: bold;
     color: darkblue;
 }
@@ -90,10 +102,43 @@ a:hover{
     width: 100px;
 }
 
-#testSPAN{
-    width: 600px;
-    height: 30px;
-    margin: 0 auto;
+#imgShowRound{
     text-align: center;
+    height: 400px;
+    margin: 0 auto;
+}
 
+input:focus{
+    /*
+    input:-internal-autofill-selected
+     can be used to solve the black border problem
+    */
+    color: black;
+    border-color: red;
+    padding: 1px;
+}
+
+.logSPANform{
+    display: block;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+.labelSPAN{
+    width: 90px;
+    display: inline-block;
+    text-align: left;
+}
+
+#logForm{
+    width: 370px;
+    margin: 0 auto;
+    padding-top: 25px;
+}
+
+#logFSdiv{
+    width: 320px;
+    text-align: left;
+    margin: 2px auto;
+    font-size: 18px;
 }

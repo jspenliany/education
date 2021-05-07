@@ -15,8 +15,8 @@
     </context:component-scan>
 
     <bean id="defaultView" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/WEB-INF/views/"></property>
-        <property name="suffix" value=".jsp"></property>
+        <property name="prefix" value="/"></property>
+        <property name="suffix" value=".html"></property>
     </bean>
 <!--the following snippet will separate static resources from all requests-->
     <mvc:default-servlet-handler />

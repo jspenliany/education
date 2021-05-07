@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <title>User Manage Page</title>
+    <script src="/js/vue.js" type="text/javascript"></script>
+    <script src="/js/imagescale.js" type="text/javascript"></script>
+    <script src="/js/encapsulatehttp.js" type="text/javascript"></script>
+    <link href="/css/frame.css" rel="stylesheet" type="text/css"/>
+</head>
+
+<body>
+<div id="app">
+    <div id="menuFrame">
+        <ul id="menuUl">
+            <li class="menuLi" v-for="item in menu">
+                <span id="menuLabelSearch" v-if="item.label === '搜索'">
+                    <label><input id="menu_search"/>{{item.label}}</label>
+                </span>
+                <span class="menuSpan" v-else>
+                    <a :href="item.link" class="menuLinkA">{{item.label}}</a>
+                </span>
+            </li>
+        </ul>
+    </div>
+    <div id="topFrame">
+<!--        <div v-for="item in data1">
+            <span>{{typeof item}}</span>
+            <div v-for="(subItem,key,index) in item">
+                <span :id="subItem">{{key}}...{{subItem}}..{{index}}</span>
+            </div>
+        </div>-->
+        <div id="imgShowRound">
+            <form action="" id="logForm" onsubmit="return false">
+                <fieldset>
+                    <legend>请填写登录帐号信息</legend>
+                    <div id="logFSdiv">
+                        <span class="labelSPAN" id="formLabel">
+                            <span class="logSPANform">
+                                <label for="user-name-label">帐户名：</label>
+                            </span>
+                            <span class="logSPANform">
+                                <label for="user-pwd-label">帐户密码：</label>
+                            </span>
+                            <span class="logSPANform">
+                                <label for="log-code-label">验证码：</label>
+                            </span>
+                            <span class="logSPANform">
+                                <label for="log-hidden-label">隐身：</label>
+                            </span>
+                        </span>
+                        <span class="labelSPAN" id="formInput">
+                            <span class="logSPANform">
+                                <input id="user-name-label" placeholder="账户名" type="text" v-model="userLog.username"/>
+                            </span>
+                            <span class="logSPANform">
+                                <input id="user-pwd-label" placeholder="帐户密码" type="password" v-model="userLog.userpwd"/>
+                            </span>
+                            <span class="logSPANform">
+                                <input id="log-code-label" placeholder="验证码" type="text" v-model="userLog.dycode"/>
+                            </span>
+                            <span class="logSPANform">
+                                <input id="log-hidden-label" type="checkbox" v-model="userLog.hidden"/>
+                                <button @click="logSubmit">登录</button>
+                            </span>
+                        </span>
+                    </div>
+                </fieldset>
+            </form>
+            <h1 id="msgPop">{{hResult.msg_content}}</h1>
+        </div>
+    </div>
+</div>
+
+<script>
+    let app = new Vue({
+        el: '#app',
+        data() {
+            return {
+                RoundShow:['1.JPG','2.JPG','3.JPG','4.JPG','5.JPG'],
+                RoundShow_Point:0,
+                imgPARAsrc:'/img/1.JPG',
+
+                userLog:{
+                    username:'',
+                    userpwd:'',
+                    dycode:'',
+                    hidden:false
+                },
+
+                hResult:{
+                    msg_code:0,
+                    msg_content:'',
+                    msg_url:''
+                },
+
+                logFrameData: [{
+                    name:'用户名',
+                    quaker:'text',
+                    backData:'',
+                    flag:0
+                },{
+                    name:'密码',
+                    quaker:'password',
+                    backData:'',
+                    flag:0
+                },{
+                    name:'验证码',
+                    quaker:'text',
+                    backData:'',
+                    flag:0
+                }],
+                menu: [{
+                    label: '首页',
+                    icon:'md-home',
+                    type:'primary',
+                    show:true,
+                    reply:'frontHome',
+                    link: '/index.html'
+                },{
+                    label: '校园风采',
+                    icon:'md-school',
+                    type:'info',
+                    show:true,
+                    reply:'frontEcology',
+                    link: 'ecology.html'
+                },{
+                    label: '相关数据',
+                    icon:'ios-paper',
+                    type:'info',
+                    show:true,
+                    reply:'frontData',
+                    link: 'statisData.html'
+                },{
+                    label: '设备维护',
+                    icon:'ios-construct',
+                    type:'info',
+                    show:true,
+                    reply:'frontRepair',
+                    link: 'repair.html'
+                },{
+                    label: '注册',
+                    icon:'md-add-circle',
+                    type:'info',
+                    show:true,
+                    reply:'frontRegister',
+                    link: 'register.html'
+                },{
+                    label: '登录',
+                    icon:'md-log-in',
+                    type:'info',
+                    show:true,
+                    reply:'frontLog',
+                    link: '/page/user/logPage.html'
+                },{
+                    label: '搜索',
+                    icon:'md-search',
+                    type:'primary',
+                    show:true,
+                    reply:'frontSearch',
+                    link: '#'
+                },
+                ]
+            }
+        },
+        methods: {
+            logSubmit() {
+                let _this = this;
+                http.ajax({
+                    url: '/user/loginrespond',
+                    type:'POST',
+                    data:{username: this.userLog.username,
+                        userpwd: this.userLog.userpwd,
+                        hidden: this.userLog.hidden,
+                        dCode: this.userLog.dycode},
+                    headers:{
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                    },
+                    beforeSend: (xhr) => {
+                        console.log('request show loading...');
+                    },
+                    success: function (result, status, xhr) {
+                        console.log(typeof result);
+                        let tmp = eval('('+result+')');
+                        console.log(tmp.msg_content);
+                        _this.hResult.msg_code = tmp.msg_code;
+                        _this.hResult.msg_content = tmp.msg_content;
+                        _this.hResult.msg_url = tmp.msg_url;
+                        // window.location.href="/";
+                    },
+                    error: (xhr, status, error) => {
+                        console.log('request error...');
+                    },
+                    complete: (xhr, status) => {
+                        console.log('request hide loading...');
+                    }
+                })
+            }
+        },
+
+        watch: {
+            hResult(newValue){
+                console.log(newValue.msg_code)
+                document.getElementById("msgPop").innerText=newValue.msg_content;
+                alert('gagagaga');
+            }
+        },
+        mounted() {
+            /*const  timer = setInterval(()=>{
+                this.RoundShow_Point++;
+                if (this.RoundShow_Point > this.RoundShow.length-1){
+                    this.RoundShow_Point=0;
+                }
+                console.log('the next image index is ' + this.RoundShow_Point);
+                this.goIMG()
+            },1000);
+            this.$once('hook:beforeDetroy', ()=>{
+                clearInterval(timer)
+            })*/
+        }
+    })
+</script>
+</body>
+</html>

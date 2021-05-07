@@ -5,6 +5,7 @@
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
     <title>User Manage Page</title>
     <script src="/js/vue.js" type="text/javascript"></script>
+    <script src="/js/imagescale.js" type="text/javascript"></script>
     <link href="/css/frame.css" rel="stylesheet" type="text/css"/>
 </head>
 
@@ -17,17 +18,20 @@
                     <label><input id="menu_search"/>{{item.label}}</label>
                 </span>
                 <span class="menuSpan" v-else>
-                    <a class="menuLinkA" href="home.html">{{item.label}}</a>
+                    <a :href="item.link" class="menuLinkA">{{item.label}}</a>
                 </span>
             </li>
         </ul>
     </div>
     <div id="topFrame">
-        <div v-for="item in data1">
+<!--        <div v-for="item in data1">
             <span>{{typeof item}}</span>
             <div v-for="(subItem,key,index) in item">
                 <span :id="subItem">{{key}}...{{subItem}}..{{index}}</span>
             </div>
+        </div>-->
+        <div id="imgShowRound">
+            <img :src="imgPARAsrc" alt="round-display images" onload="ImgScale(this,560,400)"/>
         </div>
     </div>
 </div>
@@ -37,6 +41,9 @@
         el: '#app',
         data() {
             return {
+                RoundShow:['1.JPG','2.JPG','3.JPG','4.JPG','5.JPG'],
+                RoundShow_Point:0,
+                imgPARAsrc:'/img/1.JPG',
                 data1:[{
                         uid: '1001',
                         name: 'Nagisa',
@@ -148,42 +155,42 @@
                     type:'primary',
                     show:true,
                     reply:'frontHome',
-                    link: '#'
+                    link: '/index.html'
                 },{
                     label: '校园风采',
                     icon:'md-school',
                     type:'info',
                     show:true,
                     reply:'frontEcology',
-                    link: '#'
+                    link: 'ecology.html'
                 },{
                     label: '相关数据',
                     icon:'ios-paper',
                     type:'info',
                     show:true,
                     reply:'frontData',
-                    link: '#'
+                    link: 'statisData.html'
                 },{
                     label: '设备维护',
                     icon:'ios-construct',
                     type:'info',
                     show:true,
                     reply:'frontRepair',
-                    link: '#'
+                    link: 'repair.html'
                 },{
                     label: '注册',
                     icon:'md-add-circle',
                     type:'info',
                     show:true,
                     reply:'frontRegister',
-                    link: '#'
+                    link: 'register.html'
                 },{
                     label: '登录',
                     icon:'md-log-in',
                     type:'info',
                     show:true,
                     reply:'frontLog',
-                    link: '#'
+                    link: '/page/user/logPage.html'
                 },{
                     label: '搜索',
                     icon:'md-search',
@@ -196,53 +203,26 @@
             }
         },
         methods: {
-            OperateMenu(index, reply) {
-                console.log('menu ' + index + ', trigger ' + reply);
-                if (reply == 'frontHome'){
-                    this.FrontHome();
-                }else if (reply == 'frontEcology') {
-                    this.FrontEcology();
-                }else if (reply == 'frontData') {
-                    this.FrontData();
-                }else if (reply == 'frontRepair') {
-                    this.FrontRepair();
-                }else if (reply == 'frontRegister') {
-                    this.FrontRegister();
-                }else if (reply == 'frontLog') {
-                    this.FrontLog();
-                }else if (reply == 'frontSearch') {
-                    this.FrontSearch();
-                }else {
-                    console.log(" error ......")
-                }
-            },
-            FrontHome() {
-                console.log(" well the home page coming ");
-                this.$http.get(`/homee`,'');
-            },
-            FrontEcology() {
-                console.log(" well life-style in campus");
-            },
-            FrontData() {
-                console.log(" well all history data can be visited here");
-            },
-            FrontRepair() {
-                console.log(" well for the state of equipments");
-            },
-            FrontSearch() {
-                console.log(" well the search key is " + this.searchKey);
-            },
-            FrontLog() {
-                console.log("well, I am logging in")
-            },
-            FrontRegister() {
-                console.log("well, I am register")
-            },
+            goIMG() {
+                imgPathstr = '/img/' + this.RoundShow[this.RoundShow_Point];
+                this.imgPARAsrc = imgPathstr;
+            }
         },
 
         watch: {
         },
         mounted() {
+            const  timer = setInterval(()=>{
+                this.RoundShow_Point++;
+                if (this.RoundShow_Point > this.RoundShow.length-1){
+                    this.RoundShow_Point=0;
+                }
+                console.log('the next image index is ' + this.RoundShow_Point);
+                this.goIMG()
+            },1000);
+            this.$once('hook:beforeDetroy', ()=>{
+                clearInterval(timer)
+            })
         }
     })
 </script>

@@ -38,16 +38,16 @@
                     <div id="logFSdiv">
                         <span class="labelSPAN" id="formLabel">
                             <span class="logSPANform">
-                                <label for="user-name-label">帐户名：</label>
+                                <label class="menuLabel" for="user-name-label">帐户名：</label>
                             </span>
                             <span class="logSPANform">
-                                <label for="user-pwd-label">帐户密码：</label>
+                                <label class="menuLabel" for="user-pwd-label">帐户密码：</label>
                             </span>
                             <span class="logSPANform">
-                                <label for="log-code-label">验证码：</label>
+                                <label class="menuLabel" for="log-code-label">验证码：</label>
                             </span>
                             <span class="logSPANform">
-                                <label for="log-hidden-label">隐身：</label>
+                                <label class="menuLabel" for="log-hidden-label">隐身：</label>
                             </span>
                         </span>
                         <span class="labelSPAN" id="formInput">
@@ -58,7 +58,12 @@
                                 <input id="user-pwd-label" placeholder="帐户密码" type="password" v-model="userLog.userpwd"/>
                             </span>
                             <span class="logSPANform">
-                                <input id="log-code-label" placeholder="验证码" type="text" v-model="userLog.dycode"/>
+<!--                                <input id="log-code-label" placeholder="验证码" type="text" v-model="userLog.dycode"/>-->
+                                    <div class="codeDRAGdiv">
+                                        <div class="codeBGdiv"></div>
+                                        <div class="codeTEXTdiv" id="log-code-label" onselectstart="return false;">请拖动滑块解锁</div>
+                                        <div class="codeBTNdiv">&gt;&gt;</div>
+                                    </div>
                             </span>
                             <span class="logSPANform">
                                 <input id="log-hidden-label" type="checkbox" v-model="userLog.hidden"/>
@@ -68,7 +73,8 @@
                     </div>
                 </fieldset>
             </form>
-            <h1 id="msgPop">{{hResult.msg_content}}</h1>
+            <h1 id="msgPop"></h1>
+            <h1 @click="slipperClick" id="slipperPop"></h1>
         </div>
     </div>
 </div>
@@ -88,6 +94,8 @@
                     dycode:'',
                     hidden:false
                 },
+
+                slipper_success:false,
 
                 hResult:{
                     msg_code:0,
@@ -167,6 +175,9 @@
         methods: {
             logSubmit() {
                 let _this = this;
+
+                if (!_this.slipper_success) return;
+
                 http.ajax({
                     url: '/user/loginrespond',
                     type:'POST',
@@ -184,10 +195,15 @@
                         console.log(typeof result);
                         let tmp = eval('('+result+')');
                         console.log(tmp.msg_content);
-                        _this.hResult.msg_code = tmp.msg_code;
-                        _this.hResult.msg_content = tmp.msg_content;
-                        _this.hResult.msg_url = tmp.msg_url;
-                        // window.location.href="/";
+
+                        if (tmp.msg_code == 200){
+                            window.location.href="/";
+                        }else {
+                            _this.hResult.msg_code = tmp.msg_code;
+                            _this.hResult.msg_content = tmp.msg_content;
+                            _this.hResult.msg_url = tmp.msg_url;
+                        }
+                        //
                     },
                     error: (xhr, status, error) => {
                         console.log('request error...');
@@ -196,15 +212,19 @@
                         console.log('request hide loading...');
                     }
                 })
+            },
+
+            slipperClick(){
+                console.log("newValue");
+                this.slipper_success=true;
             }
         },
 
         watch: {
             hResult(newValue){
-                console.log(newValue.msg_code)
+                console.log(newValue.msg_code);
                 document.getElementById("msgPop").innerText=newValue.msg_content;
-                alert('gagagaga');
-            }
+            },
         },
         mounted() {
             /*const  timer = setInterval(()=>{
@@ -221,5 +241,6 @@
         }
     })
 </script>
+<script src="/js/slipper.js" type="text/javascript"></script>
 </body>
 </html>

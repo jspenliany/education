@@ -22,11 +22,13 @@ public class UserServiceImpl implements UserService {
         System.out.println(" enter into UserServiceImpl...login...");
         Userinfo tmp = new Userinfo();
         tmp.setUsername(uname);
-        tmp.setUserpwd(pwd);
+//        tmp.setUserpwd(pwd);
         List<Userinfo> ulist=userDao.SelectUsersInfos(tmp);
 
         for (Userinfo uin:ulist) {
-            System.out.println("---------"+uin.getUsername() +" "+uin.getUserpwd());
+            if (pwd.equals(uin.getUserpwd())){
+                System.out.println("---------"+uin.getUsername() +" "+uin.getUserpwd());
+            }
         }
 
         if (ulist == null)

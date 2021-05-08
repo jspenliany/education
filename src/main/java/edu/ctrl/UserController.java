@@ -3,13 +3,14 @@ package edu.ctrl;
 import edu.dao.Userinfo;
 import edu.services.UserService;
 import edu.util.FrontMsg;
+import edu.util.UserParameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,44 +27,38 @@ public class UserController {
     {
         boolean check_flag = false;
         Userinfo userinfo;
-        StringBuilder msg_content= new StringBuilder();
-        StringBuilder msg_url= new StringBuilder();
-        int msg_code=0;
-        FrontMsg frontMsg = new FrontMsg();
+        List<FrontMsg> msg_code = new ArrayList<>();
+        FrontMsg frontMsg;
 
         if (filterInput(username))
         {
             System.out.println("well, check finished " + username);
-            msg_content.append(" username check OK; ");
+            frontMsg = new FrontMsg(UserParameters.MSG_CODE_INPUT_USERNAME,UserParameters.MSG_CODE_INPUT_OK);
             check_flag=true;
         }
         else
         {
             System.out.println("error, bad input " + username);
-            msg_code=606;
-            msg_content.append(" username check BAD; ");
-            msg_url.append(" homepage ");
+            frontMsg = new FrontMsg(UserParameters.MSG_CODE_INPUT_USERNAME,UserParameters.MSG_CODE_INPUT_ERROR);
         }
+
+        msg_code.add(frontMsg);
 
         if (check_flag){
             userinfo = userService.login(username,userpwd);
 
             if (userinfo == null){
-                msg_code=505;
-                msg_content.append(" password check BAD; ");
-                msg_url.append(" pass ");
+                frontMsg = new FrontMsg(UserParameters.MSG_CODE_REQUEST_LOG_IN,UserParameters.MSG_CODE_REQUEST_NO_RECORD);
             }else {
-                msg_code=200;
-                msg_content.append(" log in; ");
-                msg_url.append(" welcome; ");
+                if (userinfo.getUserpwd().equals(userpwd))
+                    frontMsg = new FrontMsg(UserParameters.MSG_CODE_REQUEST_LOG_IN,UserParameters.MSG_CODE_REQUEST_SUCCESS);
+                else
+                    frontMsg = new FrontMsg(UserParameters.MSG_CODE_INPUT_USER_PWD,UserParameters.MSG_CODE_INPUT_ERROR);
             }
+            msg_code.add(frontMsg);
         }
 
-        frontMsg.setMsg_code(msg_code);
-        frontMsg.setMsg_url(msg_url.toString());
-        frontMsg.setMsg_content(msg_content.toString());
-
-        return frontMsg.toString();
+        return UserParameters.generateJSON(msg_code);
     }
 
     protected boolean filterInput(String inSTR)
@@ -74,4 +69,6 @@ public class UserController {
         Matcher matcher = pattern.matcher(tmp);
         return matcher.matches();
     }
+
+
 }

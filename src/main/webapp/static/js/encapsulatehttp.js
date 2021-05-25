@@ -38,6 +38,8 @@ const http = {
         }
         // 创建XMLHttpRequest请求对象
         let xhr = new XMLHttpRequest();
+        //跨域cookie的传回后台
+        xhr.withCredentials = true;
         // 请求开始回调函数
         xhr.addEventListener('loadstart', e => {
             _s.beforeSend(xhr);

@@ -71,7 +71,7 @@ public class UserParameters {
         json.append((code_flag<1)?200:606);
         json.append(",msg_content: \'");
         if (content.length()>0){
-            json.append("error_inputs_list ");
+            json.append("error_inputs_list: ");
             json.append(content.toString());
         }
         json.append("\'");
@@ -85,15 +85,15 @@ public class UserParameters {
         if (separate)
             ret.append(",");
         switch (ecode){
-            case MSG_CODE_INPUT_USERNAME:ret.append("username");element=INPUT_TYPE.USERNAME;break;
-            case MSG_CODE_INPUT_USER_PWD:ret.append("password");element=INPUT_TYPE.PASSWORD;break;
-            case MSG_CODE_INPUT_DYNAMIC_CODE:ret.append("dcode");element=INPUT_TYPE.DYNAMIC_CODE;break;
-            case MSG_CODE_INPUT_EMAIL:ret.append("email");element=INPUT_TYPE.EMAIL;break;
-            case MSG_CODE_INPUT_TELEPHONE:ret.append("telephone");element=INPUT_TYPE.TELEPHONE;break;
-            case MSG_CODE_INPUT_GENDER:ret.append("gender");element=INPUT_TYPE.GENDER;break;
-            case MSG_CODE_INPUT_STUDY_ID:ret.append("study_id");element=INPUT_TYPE.STUDY_ID;break;
-            case MSG_CODE_INPUT_SOCIETY_ID:ret.append("society_id");element=INPUT_TYPE.SOCIETY_ID;break;
-            case MSG_CODE_INPUT_AGE:ret.append("age");element=INPUT_TYPE.AGE;break;
+            case MSG_CODE_INPUT_USERNAME:element=INPUT_TYPE.USERNAME;ret.append(inputList[element.ordinal()].toLowerCase());break;
+            case MSG_CODE_INPUT_USER_PWD:element=INPUT_TYPE.PASSWORD;ret.append(inputList[element.ordinal()].toLowerCase());break;
+            case MSG_CODE_INPUT_DYNAMIC_CODE:element=INPUT_TYPE.DYNAMIC_CODE;ret.append(inputList[element.ordinal()].toLowerCase());break;
+            case MSG_CODE_INPUT_EMAIL:element=INPUT_TYPE.EMAIL;ret.append(inputList[element.ordinal()].toLowerCase());break;
+            case MSG_CODE_INPUT_TELEPHONE:element=INPUT_TYPE.TELEPHONE;ret.append(inputList[element.ordinal()].toLowerCase());break;
+            case MSG_CODE_INPUT_GENDER:element=INPUT_TYPE.GENDER;ret.append(inputList[element.ordinal()].toLowerCase());break;
+            case MSG_CODE_INPUT_STUDY_ID:element=INPUT_TYPE.STUDY_ID;ret.append(inputList[element.ordinal()].toLowerCase());break;
+            case MSG_CODE_INPUT_SOCIETY_ID:element=INPUT_TYPE.SOCIETY_ID;ret.append(inputList[element.ordinal()].toLowerCase());break;
+            case MSG_CODE_INPUT_AGE:element=INPUT_TYPE.AGE;ret.append(inputList[element.ordinal()].toLowerCase());break;
             case MSG_CODE_REQUEST_LOG_IN:ret.append("logIn");element=INPUT_TYPE.USERNAME;break;
             default:ret.append("exception");element=INPUT_TYPE.NONE;break;
         }

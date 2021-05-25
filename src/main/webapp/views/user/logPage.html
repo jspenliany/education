@@ -18,7 +18,7 @@
                 <span id="menuLabelSearch" v-if="item.label === '搜索'">
                     <label><input id="menu_search"/>{{item.label}}</label>
                 </span>
-                <span class="menuSpan" v-else>
+                <span :id="item.reply" class="menuSpan" v-else>
                     <a :href="item.link" class="menuLinkA">{{item.label}}</a>
                 </span>
             </li>
@@ -44,7 +44,7 @@
                                 <label class="menuLabel" for="user-pwd-label">帐户密码：</label>
                             </span>
                             <span class="logSPANform">
-                                <label class="menuLabel" for="log-code-label">验证码：</label>
+                                <label class="menuLabel" for="log-code-label">人机验证：</label>
                             </span>
                             <span class="logSPANform">
                                 <label class="menuLabel" for="log-hidden-label">隐身：</label>
@@ -125,58 +125,67 @@
                     type:'primary',
                     show:true,
                     reply:'frontHome',
-                    link: '/index.html'
+                    link: '/index.html',
+                    logSuccess:false
                 },{
                     label: '校园风采',
                     icon:'md-school',
                     type:'info',
                     show:true,
                     reply:'frontEcology',
-                    link: 'ecology.html'
+                    link: 'ecology.html',
+                    logSuccess:false
                 },{
                     label: '相关数据',
                     icon:'ios-paper',
                     type:'info',
                     show:true,
                     reply:'frontData',
-                    link: 'statisData.html'
+                    link: 'statisData.html',
+                    logSuccess:false
                 },{
                     label: '设备维护',
                     icon:'ios-construct',
                     type:'info',
                     show:true,
                     reply:'frontRepair',
-                    link: 'repair.html'
+                    link: 'repair.html',
+                    logSuccess:false
                 },{
                     label: '注册',
                     icon:'md-add-circle',
                     type:'info',
                     show:true,
                     reply:'frontRegister',
-                    link: 'register.html'
+                    link: 'register.html',
+                    logSuccess:false
                 },{
                     label: '登录',
                     icon:'md-log-in',
                     type:'info',
                     show:true,
                     reply:'frontLog',
-                    link: '/page/user/logPage.html'
+                    link: '/page/user/logPage.html',
+                    logSuccess:false
                 },{
                     label: '搜索',
                     icon:'md-search',
                     type:'primary',
                     show:true,
                     reply:'frontSearch',
-                    link: '#'
-                },
-                ]
+                    link: '#',
+                    logSuccess:false
+                }]
             }
         },
         methods: {
             logSubmit() {
                 let _this = this;
 
-                if (!_this.slipper_success) return;
+                if (!_this.slipper_success){
+                    alert('Please finish the unlock operation!!!');
+                    return;
+                }
 
                 http.ajax({
                     url: '/user/loginrespond',
@@ -189,6 +198,7 @@
                         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                     },
                     beforeSend: (xhr) => {
+                        _this.hresultReset();
                         console.log('request show loading...');
                     },
                     success: function (result, status, xhr) {
@@ -197,11 +207,15 @@
                         console.log(tmp.msg_content);
 
                         if (tmp.msg_code == 200){
-                            window.location.href="/";
+                            _this.menu[5].logSuccess=true;
+                            document.getElementById('frontLog').getElementsByTagName('a').innerHTML='user';
+                            alert(' Log in success ');
+                            // window.location.href="/";
                         }else {
                             _this.hResult.msg_code = tmp.msg_code;
                             _this.hResult.msg_content = tmp.msg_content;
-                            _this.hResult.msg_url = tmp.msg_url;
+                            _this.hResult.msg_url = 'tmp.msg_url';
+                            _this.hResult = tmp;
                         }
                         //
                     },
@@ -213,31 +227,37 @@
                     }
                 })
             },
-
+/*
+* slipperClick function is used to send signal from 'slipper.js'
+* */
             slipperClick(){
                 console.log("newValue");
                 this.slipper_success=true;
+            },
+/*
+* hresultReset function is used to reset 'hResult' for next message from server.
+* */
+            hresultReset(){
+                this.hResult.msg_code = -100;
+                this.hResult.msg_content='';
+                this.hResult.msg_url = '';
             }
         },
 
         watch: {
-            hResult(newValue){
-                console.log(newValue.msg_code);
-                document.getElementById("msgPop").innerText=newValue.msg_content;
-            },
+            hResult: {
+                handler(newValue, oldValue){
+                    console.log(' msg back ' + newValue.msg_content);
+                    if (newValue.msg_code>0){
+                        let msgStr = newValue.msg_content.split(':');
+                        let showMSG = 'Please check your input : ' + msgStr[1];
+                        document.getElementById("msgPop").innerText=showMSG;
+                    }
+                }
+            }
         },
         mounted() {
-            /*const  timer = setInterval(()=>{
-                this.RoundShow_Point++;
-                if (this.RoundShow_Point > this.RoundShow.length-1){
-                    this.RoundShow_Point=0;
-                }
-                console.log('the next image index is ' + this.RoundShow_Point);
-                this.goIMG()
-            },1000);
-            this.$once('hook:beforeDetroy', ()=>{
-                clearInterval(timer)
-            })*/
+
         }
     })
 </script>

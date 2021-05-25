@@ -44,6 +44,12 @@
                 RoundShow:['1.JPG','2.JPG','3.JPG','4.JPG','5.JPG'],
                 RoundShow_Point:0,
                 imgPARAsrc:'/img/1.JPG',
+                logInfo:{
+                    username:'',
+                    profile:'',
+                    icon:'',
+                    log_flag:false
+                },
                 data1:[{
                         uid: '1001',
                         name: 'Nagisa',
@@ -155,51 +161,57 @@
                     type:'primary',
                     show:true,
                     reply:'frontHome',
-                    link: '/index.html'
+                    link: '/index.html',
+                    logSuccess:false
                 },{
                     label: '校园风采',
                     icon:'md-school',
                     type:'info',
                     show:true,
                     reply:'frontEcology',
-                    link: 'ecology.html'
+                    link: 'ecology.html',
+                    logSuccess:false
                 },{
                     label: '相关数据',
                     icon:'ios-paper',
                     type:'info',
                     show:true,
                     reply:'frontData',
-                    link: 'statisData.html'
+                    link: 'statisData.html',
+                    logSuccess:false
                 },{
                     label: '设备维护',
                     icon:'ios-construct',
                     type:'info',
                     show:true,
                     reply:'frontRepair',
-                    link: 'repair.html'
+                    link: 'repair.html',
+                    logSuccess:false
                 },{
                     label: '注册',
                     icon:'md-add-circle',
                     type:'info',
                     show:true,
                     reply:'frontRegister',
-                    link: 'register.html'
+                    link: 'register.html',
+                    logSuccess:false
                 },{
                     label: '登录',
                     icon:'md-log-in',
                     type:'info',
                     show:true,
                     reply:'frontLog',
-                    link: '/page/user/logPage.html'
+                    link: '/page/user/logPage.html',
+                    logSuccess:false
                 },{
                     label: '搜索',
                     icon:'md-search',
                     type:'primary',
                     show:true,
                     reply:'frontSearch',
-                    link: '#'
-                },
-                ]
+                    link: '#',
+                    logSuccess:false
+                }]
             }
         },
         methods: {

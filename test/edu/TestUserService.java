@@ -16,13 +16,7 @@ public class TestUserService {
     @Test
     public void TestService()
     {
-        Userinfo tmp = userService.login("teahan","han");
-        if (tmp == null)
-            System.out.println(" Error, username OR pwd is wrong");
-        else
-            System.out.println(tmp.getUsername());
-
-        userService.deleteUser("tang");
+       System.out.println("test");
     }
 
 }
